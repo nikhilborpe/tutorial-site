@@ -1,9 +1,23 @@
 package com.tutorial.site.domain;
 
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 import java.util.Objects;
 
+
+@Entity
+@RequiredArgsConstructor
 public class User {
 
+    @Id
+    @GeneratedValue
     private Long id;
     private String firstName;
     private String middleName;
@@ -12,28 +26,8 @@ public class User {
     private String userName;
     private String password;
 
-    private Role role;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(middleName, user.middleName) &&
-                Objects.equals(lastName, user.lastName) &&
-                userName.equals(user.userName) &&
-                password.equals(user.password) &&
-                Objects.equals(role, user.role);
-    }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, middleName, lastName, userName, password, role);
-    }
-
+    @OneToMany
+    private List<Role> roles;
 
     public Long getId() {
         return id;
@@ -42,7 +36,6 @@ public class User {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public String getFirstName() {
         return firstName;
@@ -76,11 +69,11 @@ public class User {
         this.userName = userName;
     }
 
-    public Role getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRole(List<Role> roles) {
+        this.roles = roles;
     }
 }
